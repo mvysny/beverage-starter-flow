@@ -16,6 +16,7 @@
 package com.vaadin.starter.beveragebuddy.ui.views.reviewslist;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
@@ -58,7 +59,7 @@ public class ReviewsList extends PolymerTemplate<ReviewsModel> {
         @Encode(value = LongToStringEncoder.class, path = "id")
         @Encode(value = LocalDateToStringEncoder.class, path = "date")
         @Encode(value = LongToStringEncoder.class, path = "category.id")
-        void setReviews(List<Review> reviews);
+        void setReviews(List<ReviewWithFoo> reviews);
     }
 
     @Id("search")
@@ -111,7 +112,7 @@ public class ReviewsList extends PolymerTemplate<ReviewsModel> {
                 header.add(new Span(reviews.size() + " results"));
             }
         }
-        getModel().setReviews(reviews);
+        getModel().setReviews(reviews.stream().map(it -> new ReviewWithFoo()).collect(Collectors.toList()));
     }
 
     @EventHandler
